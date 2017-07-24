@@ -2,7 +2,7 @@
 # @Author: Luke
 # @Date:   2017-07-23 20:40:31
 # @Last Modified by:   Luke
-# @Last Modified time: 2017-07-23 22:31:29
+# @Last Modified time: 2017-07-24 06:55:43
 
 product = ProductPage.new
 account = MyAccount.new
@@ -12,6 +12,7 @@ Given(/^Logged in user is on product page$/) do
   # log in as customer first
   visit("http://mage.dev/customer/account/login")
   account.login("luke.fitzgerald@blueacorn.com", "pass4luke")
+  Capybara.has_text?('MY DASHBOARD')
 
   # navigate to product page
   visit("http://mage.dev/batest-simple")
@@ -26,23 +27,23 @@ end
 Then(/^Product is added to wishlist$/) do
   # verify product added to wishlist
   Capybara.has_text?(@prodName)
-
-
-  sleep(5)
 end
 
 Then(/^Customer is redirected to wishlist page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  Capybara.has_css?(account.wishlistHeading)
+  expect(page).to have_current_path("/index.php/wishlist/index/index/wishlist_id/1/")
 end
 
 Given(/^Guest user is on product page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  # navigate to product page
+  visit("http://mage.dev/batest-simple")
 end
 
-When(/^User adds product to wishlist$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^logs in at the login page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+When(/^Logs in at the login page$/) do
+  # wait for page title to display
+  Capybara.has_css?(account.accountLoginHeading)
+  
+  #login to customer account
+  account.login("luke.fitzgerald@blueacorn.com", "pass4luke")
+  Capybara.has_text?('My Wishlist')
 end

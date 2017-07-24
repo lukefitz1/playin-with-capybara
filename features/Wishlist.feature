@@ -8,6 +8,6 @@ Feature: Product wishlist
 
 	Scenario: Guest user adds product to wishlist
 	Given Guest user is on product page
-	When User adds product to wishlist
-	And logs in at the login page
+	When Customer adds product to wishlist
+	And Logs in at the login page
 	Then Product is added to wishlist
